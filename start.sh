@@ -10,15 +10,17 @@ echo SigaVPN country: ${COUNTRY}
 
 sigavpn_link="https://ovpn.sigavpn.com/${COUNTRY}.php"
 
-sigavpn_ip=`curl -sI ${sigavpn_link} | grep "^Location:" | grep -oE "\d+\.\d+\.\d+\.\d+"`
+curl -sL ${sigavpn_link} -o sigavpn.ovpn
+
+sigavpn_ip=`grep -E '^remote \d+.\d+.\d+.\d+' sigavpn.ovpn | head -n1 | cut -d' ' -f2`
 
 echo SigaVPN IP: ${sigavpn_ip}
-
-curl -sL ${sigavpn_link} -o sigavpn.ovpn
 
 echo Setting up OpenVPN..
 
 openvpn --config sigavpn.ovpn > sigavpn.log &
+
+sleep 3
 
 while true; do
   ip=`curl -s http://ipinfo.io/ip`
