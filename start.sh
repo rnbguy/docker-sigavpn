@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if [ -z $1 ]; then
-  COUNTRY=netherlands2
+  COUNTRY=nl1
 else
   COUNTRY=$1
 fi
