@@ -1,14 +1,12 @@
 #!/bin/sh
 
-if [ -z $1 ]; then
-  COUNTRY=nl1
-else
-  COUNTRY=$1
+if [ -z $CODE ]; then
+  CODE=nl1
 fi
 
-echo SigaVPN country: ${COUNTRY}
+echo SigaVPN code: ${CODE}
 
-sigavpn_link="https://ovpn.sigavpn.com/${COUNTRY}.php"
+sigavpn_link="https://ovpn.sigavpn.com/${CODE}.php"
 
 curl -sL ${sigavpn_link} -o sigavpn.ovpn
 

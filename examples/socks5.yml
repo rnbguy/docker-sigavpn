@@ -1,0 +1,27 @@
+version:            '3.6'
+
+services:
+  sigavpn:
+    container_name: sigavpn
+    image:          rnbguy/sigavpn
+    dns:
+      - 1.1.1.1
+      - 1.0.0.1
+    cap_add:
+      - net_admin
+    devices:
+      - /dev/net/tun
+    environment:
+      - CODE=lux1
+  srelay:
+    container_name: srelay
+    image:          fsvehla/srelay
+    network_mode:   service:sigavpn
+  port_forward:
+    container_name: port_forward
+    image:          alpine/socat
+    ports:
+      - 1081:1080
+    command:
+      - TCP-LISTEN:1080,fork,reuseaddr
+      - TCP:sigavpn:1080
